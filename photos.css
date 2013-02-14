@@ -2,7 +2,6 @@ body {
     font: 16px/1 Helvetica, sans-serif;
 }
 
-
 #photos {
     float: left;
     width: 100%;
@@ -15,8 +14,29 @@ body {
     height: 160px;
 }
 
-.photo,
-.photo img {
+.photo, .photo img {
     min-width: 160px;
     max-width: 240px;
 }
+
+span.favorite {
+    opacity: 0.4;
+    background: black;
+    border: black 8px solid;
+    border-radius: 8px;
+    position: absolute;
+    z-index: 2;
+    margin: 4px;
+}
+
+span.favorite:hover {
+    opacity: 0.8;
+}
+
+.icon-heart {
+    color: red;
+}
+.icon-heart-empty {
+    color: white;
+}
+

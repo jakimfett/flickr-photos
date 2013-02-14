@@ -2,8 +2,11 @@
 
 var setupPhotos = (function ($) {
     function each (items, callback) {
-        var i;
+        var i; //Initialize variable I
         for (i = 0; i < items.length; i += 1) {
+            //Set i=0
+            //then while i is less than the variable items.length
+            //
             setTimeout(callback.bind(this, items[i]), 0);
         }
     }
@@ -61,19 +64,31 @@ var setupPhotos = (function ($) {
         return img;
     }
 
+    var max_per_tag = 5;
+    var count = 0;
     function imageAppender (id) {
         var holder = document.getElementById(id);
         return function (img) {
             var elm = document.createElement('div');
+            var fav = document.createElement('span');
+            var favIcon = document.createElement('i');
             elm.className = 'photo';
+            fav.className = 'favorite';
+            fav.style = 'opacity: 0';
+            favIcon.className = 'favIcon icon-heart-empty icon-2x';
+            fav.appendChild(favIcon);
+            elm.appendChild(fav);
             elm.appendChild(img);
             holder.appendChild(elm);
+            $(fav).click(function(){
+                $(this).children().toggleClass('icon-heart-empty');
+                $(this).children().toggleClass('icon-heart');
+            });
         };
     }
 
     // ----
-    
-    var max_per_tag = 5;
+
     return function setup (tags, callback) {
         loadAllPhotos(tags, max_per_tag, function (err, items) {
             if (err) { return callback(err); }
