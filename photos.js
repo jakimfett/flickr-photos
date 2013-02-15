@@ -4,9 +4,6 @@ var setupPhotos = (function ($) {
     function each (items, callback) {
         var i; //Initialize variable I
         for (i = 0; i < items.length; i += 1) {
-            //Set i=0
-            //then while i is less than the variable items.length
-            //
             setTimeout(callback.bind(this, items[i]), 0);
         }
     }
@@ -75,18 +72,75 @@ var setupPhotos = (function ($) {
             elm.className = 'photo';
             fav.className = 'favorite';
             fav.style = 'opacity: 0';
-            favIcon.className = 'favIcon icon-heart-empty icon-2x';
+            if (getFav(img.src)) {
+                favIcon.className = 'favIcon icon-heart icon-2x';
+            } else {
+                favIcon.className = 'favIcon icon-heart-empty icon-2x';
+            }
             fav.appendChild(favIcon);
             elm.appendChild(fav);
             elm.appendChild(img);
+
             holder.appendChild(elm);
-            $(fav).click(function(){
-                $(this).children().toggleClass('icon-heart-empty');
-                $(this).children().toggleClass('icon-heart');
-            });
+            if($(favIcon).hasClass('icon-heart')){
+                $(fav).toggle(function () {
+                    //remove favorite
+                    $(this).children().removeClass('icon-heart');
+                    $(this).children().addClass('icon-heart-empty');
+                    removeFav(img.src);
+                }, function () {
+                    //add favorite
+                    $(this).children().addClass('icon-heart');
+                    $(this).children().removeClass('icon-heart-empty');
+                    recordFav(img.src);
+                });
+            } else {
+                $(fav).toggle(function () {
+                    //add favorite
+                    $(this).children().addClass('icon-heart');
+                    $(this).children().removeClass('icon-heart-empty');
+                    recordFav(img.src);
+                }, function () {
+                    //remove favorite
+                    $(this).children().removeClass('icon-heart');
+                    $(this).children().addClass('icon-heart-empty');
+                    removeFav(img.src);
+                });
+            }
         };
     }
+    var cookieName = 'flickr-photo';
+    function recordFav(newFav) {
+        if(document.cookie) {
+            var existingFavs=document.cookie.split("=");
+            existingFavs = existingFavs[1];
+            document.cookie=cookieName + '=' + existingFavs + "," + newFav;
+        } else {
+            document.cookie=cookieName + '=' + newFav;
+        }
+    }
 
+    function getFav(favID) {
+      if(document.cookie){
+        var favArray=document.cookie.split("=");
+        favArray = favArray[1].split(",");
+        if(favArray.indexOf(favID) !== -1){
+            return true;
+        } else {
+            return false;
+        }
+      } else {
+          return false;
+      }
+    }
+    
+    function removeFav(favID){
+        var favArray=document.cookie.split("=");
+        favArray = favArray[1].split(",");
+        favArray.splice(favArray.indexOf(favID), 1);
+        document.cookie=cookieName + '=' + favArray;
+        
+    }
     // ----
 
     return function setup (tags, callback) {
