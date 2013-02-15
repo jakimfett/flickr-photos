@@ -19,7 +19,7 @@ body {
     max-width: 240px;
 }
 
-span.favorite {
+span.favorite { /* Properties for the favorite icon span */
     opacity: 0.4;
     background: black;
     border: black 8px solid;
@@ -29,14 +29,15 @@ span.favorite {
     margin: 4px;
 }
 
-span.favorite:hover {
+span.favorite:hover { /* Set the hover properties for the favorite icon */
     opacity: 0.8;
 }
 
-.icon-heart {
+.icon-heart { /* Set the icon for favorited image icon to red */
     color: red;
 }
-.icon-heart-empty {
+
+.icon-heart-empty { /* Set the icon for non-favorited image to white */
     color: white;
 }
 
